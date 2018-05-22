@@ -30,7 +30,7 @@
 * CustomUserAgentMiddleware\
 user-agent 池
 
-### pipelies.py\
+### pipelies.py
 实现了mysql 与 mongodb 的储存\
 mysql 使用的是executemany 插入多条数据的方式
 
@@ -42,8 +42,8 @@ mongodb 使用的是insert_many 插入多条的方式
 优点就是相对节省性能,毕竟减少了与数据库的交互\
 缺点就是有时会插入失败,造成小部分数据丢失, 当然概率是很小的
 
-### custom.py\
-最主要的一个文件 里面定义了redis的一些相关方法\
+### custom.py
+最主要的一个文件 里面定义了redis的一些相关方法
 
 * get_proxy 方法\
 取出代理 前提必须是已经实现了,有效代理池的添加.
