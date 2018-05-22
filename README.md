@@ -9,6 +9,11 @@
 * 存储数据库 mysql 或 mongodb
 * 必须要有可用的高匿名代理池队列
 
+### 使用方式
+第一个抓取的用户关注量最好大于10000\
+先运行ZhihuSpider 过十几秒之后再运行UserInfoSpider\
+用于保证待抓取队列,与url队列都存在数据
+
 ### spider.py
 * ZhihuSpider 类\
 主要用于请求生成 每个待抓取用户的 每一页关注与粉丝列表
