@@ -15,7 +15,7 @@ from scrapy.utils.response import response_status_message
 
 from .custom_db import redis_db
 
-PROXY = None
+PROXY = []
 
 
 
@@ -123,7 +123,10 @@ class ProxyMiddleware(object):
     def process_request(self, request, spider):
 
         if not request.meta.get('proxy'):
-            request.meta['proxy'] = PROXY or redis_db.get_proxy()
+            try:
+                request.meta['proxy'] = PROXY.pop()
+            except IndexError:
+                request.meta['proxy'] = redis_db.get_proxy()
 
     def process_response(self, request, response, spider):
 
@@ -134,13 +137,12 @@ class ProxyMiddleware(object):
         if response.status != 200:
             logger.error("status is %s change self proxy %s" %(response.status ,PROXY))
             try:
-                PROXY = None
                 del request.meta['proxy']
                 return request
             except KeyError:
                 return request
         else:
-            PROXY = request.meta.get('proxy')
+            PROXY.append(request.meta.get('proxy'))
             return response
 
     def process_exception(self, request, exception, spider):
@@ -149,7 +151,6 @@ class ProxyMiddleware(object):
 
         logger.error("Error request url is %s" %request.url)
         try:
-            PROXY = None
             del request.meta['proxy']
             return request
         except KeyError:
@@ -169,7 +170,6 @@ class CustomRetryMiddleware(RetryMiddleware):
             reason = response_status_message(response.status)
             logger.error(" change proxy %s retry " %PROXY)
             try:
-                PROXY = None
                 del request.meta['proxy']
                 return self._retry(request, reason, spider) or response
             except KeyError:
