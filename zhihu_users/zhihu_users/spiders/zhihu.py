@@ -12,7 +12,6 @@ from zhihu_users.custom_db import redis_db
 
 
 class ZhihuSpider(Spider):
-	# master spider
 	# 负责生成url请求队列
 	# 两个api分别对应粉丝与关注列表
 
@@ -82,7 +81,6 @@ class ZhihuSpider(Spider):
 
 
 class UserInfoSpider(Spider):
-	# slave spider
 	# 负责请求url队列
 	# 并添加新的待抓取用户队列
 
