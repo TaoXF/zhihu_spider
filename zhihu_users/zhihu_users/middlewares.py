@@ -132,9 +132,9 @@ class ProxyMiddleware(object):
         if response.status == 401:
             raise IgnoreRequest
         if response.status != 200:
-            PROXY = redis_db.get_proxy()
             logger.error("status is %s change self proxy %s" %(response.status ,PROXY))
             try:
+                PROXY = None
                 del request.meta['proxy']
                 return request
             except KeyError:
@@ -147,9 +147,9 @@ class ProxyMiddleware(object):
 
         global PROXY
 
-        PROXY = redis_db.get_proxy()
         logger.error("Error request url is %s" %request.url)
         try:
+            PROXY = None
             del request.meta['proxy']
             return request
         except KeyError:
@@ -167,9 +167,9 @@ class CustomRetryMiddleware(RetryMiddleware):
             return response
         if response.status in self.retry_http_codes:
             reason = response_status_message(response.status)
-            PROXY = redis_db.get_proxy()
             logger.error(" change proxy %s retry " %PROXY)
             try:
+                PROXY = None
                 del request.meta['proxy']
                 return self._retry(request, reason, spider) or response
             except KeyError:
