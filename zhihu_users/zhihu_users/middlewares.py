@@ -123,7 +123,7 @@ class ProxyMiddleware(object):
     def process_request(self, request, spider):
 
         if not request.meta.get('proxy'):
-            request.meta['proxy'] = PROXY
+            request.meta['proxy'] = PROXY or redis_db.get_proxy()
 
     def process_response(self, request, response, spider):
 
