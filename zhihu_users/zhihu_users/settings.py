@@ -103,8 +103,8 @@ HTTPERROR_ALLOWED_CODES = [403, 401]
 # 超时时间
 DOWNLOAD_TIMEOUT = 6
 
-# 延时请求时间 100毫秒
-DOWNLOAD_DELAY  =  0.1
+# 延时请求时间 10毫秒, 如果请求延时设置得很高, 并发量将会失去效果
+DOWNLOAD_DELAY  =  0.01
 
 # 不开启 robot 协议
 ROBOTSTXT_OBEY = False
